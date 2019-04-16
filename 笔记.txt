@@ -1,0 +1,2 @@
+Vue.js源码目录设计：
+我们来看看Vue的源码目录，我们来看看Compiler目录，我们在Vue2.0中写VirtualDOM，VirtualDOM的逻辑就在这里，编译相关的代码就在这个目录，Core目录放置一些核心代码，生命周期等方法就放在这里，响应式数据相关的代码在Observer里面，很多工具方法放在util目录下，VirtualDOM核心代码就放在VDom目录下，platform是平台相关的代码，Web是我们平时开发的浏览器相关代码，所有跟服务端渲染的功能在server目录，sfc是一个解析器，是可以把单文件编译成一个对象，shared放置一些辅助方法，它可以被整个核心类访问
