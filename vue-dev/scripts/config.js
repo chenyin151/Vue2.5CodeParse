@@ -9,6 +9,7 @@ const version = process.env.VERSION || require('../package.json').version
 const weexVersion = process.env.WEEX_VERSION || require('../packages/weex-vue-framework/package.json').version
 const featureFlags = require('./feature-flags')
 
+// 输出一些版本信息
 const banner =
   '/*!\n' +
   ` * Vue.js v${version}\n` +
@@ -26,6 +27,7 @@ const weexFactoryPlugin = {
 }
 
 const aliases = require('./alias')
+// resolve方法是取得路径字符串的第一个路径作为base
 const resolve = p => {
   const base = p.split('/')[0]
   if (aliases[base]) {
@@ -35,13 +37,18 @@ const resolve = p => {
   }
 }
 
+// 不同版本的vuejs的配置
 const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
   'web-runtime-cjs-dev': {
+    // resolve('web/entry-runtime.js')通过resolve解析得到根目录为web,然后通过aliases解析得到
+    // 平台解析文件src/platforms/web
     entry: resolve('web/entry-runtime.js'),
     dest: resolve('dist/vue.runtime.common.dev.js'),
+    // 导出不同的js格式
     format: 'cjs',
     env: 'development',
+    // 输出vue的一些版本信息
     banner
   },
   'web-runtime-cjs-prod': {
@@ -213,7 +220,9 @@ const builds = {
   }
 }
 
+// 把config对象转化为rollup所识别的对象结构
 function genConfig (name) {
+  // console.log('--------builds---------',name)
   const opts = builds[name]
   const config = {
     input: opts.entry,
@@ -241,10 +250,13 @@ function genConfig (name) {
     __WEEX_VERSION__: weexVersion,
     __VERSION__: version
   }
+
   // feature flags
   Object.keys(featureFlags).forEach(key => {
+    
     vars[`process.env.${key}`] = featureFlags[key]
   })
+  // console.log('---------featureFlags', vars)
   // build-specific env
   if (opts.env) {
     vars['process.env.NODE_ENV'] = JSON.stringify(opts.env)
@@ -254,7 +266,7 @@ function genConfig (name) {
   if (opts.transpile !== false) {
     config.plugins.push(buble())
   }
-
+  // 给config对象加入_name属性，值就是原始配置项的key
   Object.defineProperty(config, '_name', {
     enumerable: false,
     value: name
@@ -267,5 +279,8 @@ if (process.env.TARGET) {
   module.exports = genConfig(process.env.TARGET)
 } else {
   exports.getBuild = genConfig
-  exports.getAllBuilds = () => Object.keys(builds).map(genConfig)
+  let test = () => Object.keys(builds).map(genConfig);
+  // console.log('test', test()[0])
+  // 用Object.keys能拿到所有key的数组
+  exports.getAllBuilds = test;
 }
