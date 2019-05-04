@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const zlib = require('zlib')
 const rollup = require('rollup')
+// terser是适用于ES6+的解析器和压缩程序包
 const terser = require('terser')
 
 // 创建dist目录
