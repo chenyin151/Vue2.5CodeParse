@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-03-31 21:32:08
+ * @LastEditTime: 2021-04-01 00:04:22
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vueCodeParse\sample\src\components\HelloWorld.vue
+-->
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
@@ -35,7 +43,9 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
-  }
+  },
+  mounted () {
+  },
 }
 </script>
 

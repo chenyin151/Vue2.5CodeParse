@@ -54,6 +54,7 @@ export function toRawType (value: any): string {
 /**
  * Strict object type check. Only returns true
  * for plain JavaScript objects.
+ * 判断是不是一个普通对象，若是普通对象则为true
  */
 export function isPlainObject (obj: any): boolean {
   return _toString.call(obj) === '[object Object]'
